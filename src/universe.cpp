@@ -168,7 +168,7 @@ void Universe::contractUniverse()
 
     if(bottomLineCompleteDead)
     {
-        this->universeRoot.erase(this->universeRoot.end());
+        this->universeRoot.pop_back();
     }
 
     bool leftLineCompleteDead = true;
