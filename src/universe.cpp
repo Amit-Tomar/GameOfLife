@@ -7,6 +7,7 @@ Universe::Universe()
     this->initFromUserInput();
 }
 
+// Moves the universe one timestamp ahead. 
 void Universe::tick()
 {
     this->expandUniverse();
@@ -72,6 +73,8 @@ void Universe::tick()
             }
         }
     }
+
+    this->contractUniverse();
 }
 
 void Universe::print()
@@ -89,6 +92,7 @@ void Universe::print()
     std::cout << std::endl;
 }
 
+// Expands the universe by adding extra padding on all sides
 void Universe::expandUniverse()
 {
     int currentWidth  = this->universeRoot[0].size();
@@ -131,5 +135,75 @@ void Universe::initFromUserInput()
         }
 
         this->universeRoot.push_back(charStoreage);
+    }
+}
+
+// Contracts the universe by removing sides from it in case any side has all the dead cells
+void Universe::contractUniverse()
+{
+    bool topLineCompleteDead = true;
+    for( char character : this->universeRoot[0] )
+    {
+        if( character == LIFE )
+        {
+            topLineCompleteDead = false;
+            break;
+        }
+    }
+
+    if(topLineCompleteDead)
+    {
+        this->universeRoot.erase(this->universeRoot.begin());
+    }
+
+    bool bottomLineCompleteDead = true;
+    for( char character : this->universeRoot[this->universeRoot.size()-1] )
+    {
+        if( character == LIFE )
+        {
+            bottomLineCompleteDead = false;
+            break;
+        }
+    }
+
+    if(bottomLineCompleteDead)
+    {
+        this->universeRoot.erase(this->universeRoot.end());
+    }
+
+    bool leftLineCompleteDead = true;
+    for( std::vector<char> line : this->universeRoot )
+    {
+        if( line[0] == LIFE )
+        {
+            leftLineCompleteDead = false;
+            break;
+        }
+    }
+
+    if(leftLineCompleteDead)
+    {
+        for( std::vector<char> &line : this->universeRoot )
+        {
+            line.erase(line.begin());
+        }
+    }
+
+    bool rightLineCompleteDead = true;
+    for( std::vector<char> line : this->universeRoot )
+    {
+        if( line[line.size()-1] == LIFE )
+        {
+            rightLineCompleteDead = false;
+            break;
+        }
+    }
+
+    if(rightLineCompleteDead)
+    {
+        for( std::vector<char> &line : this->universeRoot )
+        {
+            line.pop_back();
+        }
     }
 }

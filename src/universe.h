@@ -15,6 +15,7 @@ class Universe
 	private:
         void initFromUserInput();
         void expandUniverse();
+        void contractUniverse();
         std::vector<std::vector<char>> universeRoot;
 };
 
