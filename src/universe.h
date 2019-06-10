@@ -11,6 +11,7 @@ class Universe
 		Universe();
         void tick();
 		void print();
+		bool validateUniverseFromFile(std::string);
 
 	private:
         void initFromUserInput();

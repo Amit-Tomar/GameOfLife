@@ -1,5 +1,8 @@
 #include <iostream>
+#include <fstream>
 #include <stdexcept>
+#include <sstream>
+#include <assert.h>
 #include "universe.h"
 
 Universe::Universe()
@@ -7,7 +10,7 @@ Universe::Universe()
     this->initFromUserInput();
 }
 
-// Moves the universe one timestamp ahead. 
+// Moves the universe one timestamp ahead.
 void Universe::tick()
 {
     this->expandUniverse();
@@ -206,4 +209,47 @@ void Universe::contractUniverse()
             line.pop_back();
         }
     }
+}
+
+// For testing purposes
+bool Universe::validateUniverseFromFile(std::string filePath)
+{
+	std::cout << "Validating test case" << std::endl;
+	std::string line;
+	unsigned int lengthOfLine = 0;
+	unsigned int lineNumber = 0;
+	std::ifstream input(filePath);
+
+	while (std::getline(input, line))
+	{
+		if (0 == lengthOfLine)
+		{
+			lengthOfLine = line.length();
+		}
+
+		else
+		{
+			if (line.length() != lengthOfLine)
+			{
+				throw std::invalid_argument("All lines in test case output should have same number of characters.");
+			}
+		}
+
+		std::vector<char> charStoreage;
+		int charCount = 0;
+		for (char inputChar : line)
+		{
+			if( this->universeRoot[lineNumber][charCount] != inputChar )
+			{
+				std::cout << "Test passed" << std::endl;
+				return false;
+			}
+			charCount ++;
+		}
+
+		lineNumber ++;
+	}
+
+	std::cout << "Test passed" << std::endl;
+	return true;
 }
