@@ -241,7 +241,7 @@ bool Universe::validateUniverseFromFile(std::string filePath)
 		{
 			if( this->universeRoot[lineNumber][charCount] != inputChar )
 			{
-				std::cout << "Test passed" << std::endl;
+				std::cout << "Test failed" << std::endl;
 				return false;
 			}
 			charCount ++;
