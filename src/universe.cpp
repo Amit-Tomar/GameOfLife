@@ -3,6 +3,7 @@
 #include <stdexcept>
 #include <sstream>
 #include <assert.h>
+#include <time.h>
 #include "universe.h"
 
 Universe::Universe()
@@ -13,6 +14,7 @@ Universe::Universe()
 // Moves the universe one timestamp ahead.
 void Universe::tick()
 {
+	randomizeCellGeneration();
     this->expandUniverse();
 
     std::vector<std::vector<char>> tempUniverseRoot;
@@ -252,4 +254,38 @@ bool Universe::validateUniverseFromFile(std::string filePath)
 
 	std::cout << "Test passed" << std::endl;
 	return true;
+}
+
+// Changes the state of cell from Death to Life randomly
+void Universe::randomizeCellGeneration()
+{
+	// Seed random number
+	// srand(time(NULL));
+
+	int lastDeathI = -1;
+	int lastDeathJ = -1;
+
+	for (int i = 0; i < this->universeRoot.size(); ++i)
+	{
+		for (int j = 0; j < this->universeRoot[0].size(); ++j)
+		{
+			if ( DEATH == this->universeRoot[i][j] )
+			{
+				lastDeathI = i;
+				lastDeathJ = j;
+
+				if ( 0 == ((rand() % 100) % 2) )
+				{
+					this->universeRoot[i][j] = LIFE;
+					std::cout << "Changed " << i << "," << j << " to Life" << std::endl;
+					return;
+				}
+			}
+		}
+	}
+
+	if(lastDeathI >=0 && lastDeathJ >=0 )
+	{
+		this->universeRoot[lastDeathI][lastDeathJ] = LIFE;
+	}
 }

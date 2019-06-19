@@ -2,8 +2,11 @@
 #define UNIVERSE_H
 
 #include <vector>
-#define LIFE 'x'
-#define DEATH '-'
+// #define LIFE 'x'
+// #define DEATH '-'
+
+const char LIFE  = 'x' ;
+const char DEATH =  '-' ;
 
 class Universe
 {
@@ -17,6 +20,7 @@ class Universe
         void initFromUserInput();
         void expandUniverse();
         void contractUniverse();
+		void randomizeCellGeneration();
         std::vector<std::vector<char>> universeRoot;
 };
 
